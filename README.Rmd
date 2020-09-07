@@ -1,0 +1,39 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# meandr
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of meandr is to easily generate random data that follows continuous path.
+
+## Installation
+
+You can install meandr like so:
+
+``` {r install}
+# devtools::install_github("sccmckenzie/meandr")
+```
+
+## Example
+
+```{r example}
+library(dplyr)
+library(meandr)
+
+meandr(seed = 17) %>% 
+  mplot()
+```
