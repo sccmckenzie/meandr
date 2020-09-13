@@ -21,6 +21,7 @@
 #' @export
 #'
 #' @examples
+#' Write vignette first
 create_path <- function(n_points = 100, nodes = c(1, -1, -1, 2, 0), node_int = NULL, scale = 1.0) {
 
   # verify inputs

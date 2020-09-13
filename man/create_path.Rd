@@ -32,3 +32,6 @@ create continuously differentiable function.
 
 \code{create_path()} is the underlying function to \code{meandr()}.
 }
+\examples{
+Write vignette first
+}

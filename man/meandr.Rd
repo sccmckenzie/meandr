@@ -2,16 +2,9 @@
 % Please edit documentation in R/meandr.R
 \name{meandr}
 \alias{meandr}
-\title{Simulate random coordinates following a continuous differentiable trajectory.}
+\title{Generate random coordinates following continuous trajectory}
 \usage{
-meandr(
-  n_points = 100L,
-  n_nodes = 100L,
-  wt = c(1, -1),
-  scale = 1,
-  seed = NULL,
-  output = c("vector", "tibble")
-)
+meandr(n_points = 100L, n_nodes = 100L, wt = c(1, -1), scale = 1, seed = NULL)
 }
 \arguments{
 \item{n_points}{An integer. Controls output "resolution". (Underlying calculus is unaffected).}
@@ -23,15 +16,28 @@ meandr(
 \item{scale}{A number. Adjusts all y-values so that \code{max(y) = scale}.}
 
 \item{seed}{A number passed to \code{set.seed} for repeatability. If \code{NULL}, no seed created.}
-
-\item{output}{Either \code{"vector"} or \code{"tibble"}.}
 }
 \value{
-A tibble containing x & y coordinates of resulting function.
+A \code{tibble} containing x & y coordinates of resulting function.
 }
 \description{
-meandr
+\code{meandr()} offers a calculus-driven approach to simulating random time-series behavior.
+Inputs \code{n_nodes} and \code{wt} serve as tuning knobs for overall smoothness and direction, respectively.
+
+For greater control over curve shape, see \code{create_path()}
 }
 \details{
-recommended method for wt
+For \code{wt}, recommend using length \code{2} comprising of positive and negative element -
+though any numeric vector will be accepted.
+Default value, \code{c(1, -1)}, will tend to produce curves with greatest directional variety.
+As magnitude between \code{wt[1]} and \code{wt[2]} deviates, overall curve will veer to +/- \code{Inf}.
+
+Each call to \code{meandr()} follows below execution flow:\cr
+(1) Build piecewise function, "f2", of "nodes" sampled (with replacement) from \code{wt}.\cr
+(2) Integrate "f2" twice to obtain continuously differentiable function, "f".\cr
+(3) Interval (0, 1] is cut into \code{n_points} - resulting values passed to "f".\cr
+(4) Output coordinates in \code{tibble}
+}
+\examples{
+Write vignette first
 }
