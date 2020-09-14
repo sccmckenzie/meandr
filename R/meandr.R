@@ -34,9 +34,6 @@
 #' Write vignette first
 meandr <- function(n_points = 100L, n_nodes = 100L, wt = c(1.0, -1.0), scale = 1.0, seed = NULL) {
 
-  # verify inputs
-  output <- match.arg(output)
-
   n_nodes <- natural(n_nodes, x_arg = "n_nodes")
   wt <- vctrs::vec_cast(wt, double(), x_arg = "wt")
 
