@@ -22,15 +22,6 @@ devtools::install_github("sccmckenzie/meandr")
 
 ``` r
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 4.0.2
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(meandr)
 
 meandr(seed = 17) %>% 

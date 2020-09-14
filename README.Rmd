@@ -28,7 +28,7 @@ devtools::install_github("sccmckenzie/meandr")
 
 ## Example
 
-```{r example}
+```{r example, warning = FALSE, message = FALSE}
 library(dplyr)
 library(meandr)
 
