@@ -4,7 +4,7 @@
 \alias{mplot}
 \title{Create simply line plot from x + y coordinates. Designed for `meandr` but can be used in other applications.}
 \usage{
-mplot(x)
+mplot(.df)
 }
 \arguments{
 \item{x}{A numeric vector or data frame containing at least two numeric columns.

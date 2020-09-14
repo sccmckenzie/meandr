@@ -4,7 +4,7 @@ Title: Easily generate continuous coordinates following random trajectory
 Version: 0.1.0
 Author: Scott McKenzie <sccmckenzie@gmail.com>
 Maintainer: Scott McKenzie <sccmckenzie@gmail.com>
-Description: Family of functions that generate data from continuously differentiable functions.
+Description: Generate random data from continuously differentiable functions.
     This is particular useful for simulating time-series data such as weather conditions - 
     or any physical phenomena that maintain a clear local trajectory.
     Inflection points, or "nodes", are tunable, allowing you to control overall smoothness.

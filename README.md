@@ -7,15 +7,15 @@
 
 <!-- badges: end -->
 
-The goal of meandr is to easily generate random data that follows
-continuous path.
+`meandr` allows you to easily generate random data from continuously
+differentiable functions. This is particular useful for simulating
+time-series data such as weather conditions - or any physical phenomena
+that maintain a clear local trajectory.
 
 ## Installation
 
-You can install meandr like so:
-
 ``` r
-# devtools::install_github("sccmckenzie/meandr")
+devtools::install_github("sccmckenzie/meandr")
 ```
 
 ## Example
