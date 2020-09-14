@@ -9,13 +9,8 @@
 #' @import ggplot2
 #'
 #' @examples
-mplot <- function(x) {
-  if (is.atomic(x)) {
-    df <- dplyr::tibble(y = x,
-                        x = seq(1/length(x), 1, length.out = length(x)))
-  } else {
-    df <- dplyr::tibble(x = df[1][[1]], y = df[2][[1]])
-  }
+mplot <- function(.df) {
+  df <- dplyr::tibble(x = .df[1][[1]], y = .df[2][[1]])
 
   ggplot(df, aes(x, y)) +
     geom_line(size = 2, color = "#175C4A") +
