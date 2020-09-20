@@ -1,14 +1,4 @@
----
-title: "Introduction to meandr"
-author: "Scott McKenzie"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Introduction to meandr}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE}
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -17,15 +7,8 @@ knitr::opts_chunk$set(
 library(ggplot2)
 set.seed(17)
 theme_set(theme_minimal())
-```
 
-## Why meandr?
-
-Suppose we are trying to simulate the behavior of a "somewhat random" time-series phenomenon, $f(t)$.
-
-We could use basic approach below:
-
-```{r, fig.width=7, fig.height=2}
+## ---- fig.width=7, fig.height=2-----------------------------------------------
 # Set up quick plot function
 library(ggplot2)
 plot_f <- function(df) {
@@ -38,29 +21,13 @@ plot_f <- function(df) {
 approach_1 <- data.frame(t = 1:100,
                          f = rnorm(100))
 plot_f(approach_1)
-```
 
-This is okay, but what if we're looking for something with a bit more personality?
-
-Examples:
-
-* Outdoor temperature
-* Train station crowd density
-* Stock price
-
-Using above `rnorm` approach is not going to adequately illustrate the *character* of these examples.
-
-Instead, we could wrap `rnorm` in `cumsum`:
-
-```{r, fig.width=7, fig.height=2}
+## ---- fig.width=7, fig.height=2-----------------------------------------------
 approach_2 <- data.frame(t = 1:100,
                          f = cumsum(rnorm(100)))
 plot_f(approach_2)
-```
 
-This is an improvement, but beyond this, we don't have much control over the signal characteristics. What if we want to generate a smoother curve than above? There's no straightforward way to extend `cumsum(rnorm())` to output a smoother curve while preserving signal resolution. `meandr` offers a solution to this problem.
-
-```{r, fig.width=7, fig.height=3}
+## ---- fig.width=7, fig.height=3-----------------------------------------------
 library(meandr)
 
 approach_3 <- meandr(n_points = 100,
@@ -69,40 +36,24 @@ approach_3 <- meandr(n_points = 100,
                      seed = 10)
 
 plot_f(approach_3)
-```
 
-Observe how the curve trajectory in `approach_3` never radically changes between two points. This is the key feature of `meandr`: all data is *continuously differentiable*.
-
-## Usage
-
-### Tuning knobs
-The two most important arguments are `n_nodes` (vector) and `wt` (scalar) - adjust these to achieve desired curve behavior.
-
-Increasing `n_nodes` will induce more randomness into curve. However, to the naked eye, resulting curve will smoothen as `n_nodes` exceeds `n_points`.
-
-```{r, fig.width=7, fig.height=3}
+## ---- fig.width=7, fig.height=3-----------------------------------------------
 plot_f(
   meandr(n_points = 100,
          n_nodes = 100, # increased from 20
          wt = c(1, -1),
          seed = 10)
 )
-```
 
-On the other hand, small values of `n_nodes` will tend to produce simple parabolic curves.
-
-```{r, fig.width=7, fig.height=3}
+## ---- fig.width=7, fig.height=3-----------------------------------------------
 plot_f(
   meandr(n_points = 100,
          n_nodes = 3,
          wt = c(1, -1),
          seed = 20)
   )
-```
-In practice, I recommend using a `wt` of length `2` comprised of positive and negative element (though any numeric vector will be accepted). The default value, `c(1, -1)`, will tend to produce curves with greatest directional variety.
 
-Adjust `wt` values in moderation! As magnitude between `wt[1]` and `wt[2]` deviates, overall curve will veer to +/- `Inf`. Even a slight adjustment, `wt = c(1, -0.8)`, will preduce curves with predominantly positive trend.
-```{r, fig.width=7, fig.height=3}
+## ---- fig.width=7, fig.height=3-----------------------------------------------
 plot_f(
   meandr(n_points = 100,
          n_nodes = 100,
@@ -110,13 +61,8 @@ plot_f(
          seed = 21
   )
 )
-```
 
-### Other parameters
-
-Use `n_points` to adjust output resolution. This does not affect underlying calculus which drives curve shape (more details in next section).
-
-```{r}
+## -----------------------------------------------------------------------------
 res1 <- meandr(n_points = 10, # low resolution
                n_nodes = 500,
                wt = c(1, -1),
@@ -126,9 +72,8 @@ res2 <- meandr(n_points = 1000, # high resolution
                n_nodes = 500,
                wt = c(1, -1),
                seed = 33)
-```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=3}
+## ---- echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=3----
 library(dplyr)
 
 res1 <- mutate(res1, curve = "res1")
@@ -138,11 +83,8 @@ bind_rows(res1, res2) %>%
   ggplot(aes(t, f)) +
   geom_line(aes(color = curve, group = curve), size = 1.2) +
   ggsci::scale_color_lancet()
-```
 
-Use `scale` to scale magnitude of y-values. `meandr` will adjust output so that `max(y) = scale`.
-
-```{r, message = FALSE, warning = FALSE}
+## ---- message = FALSE, warning = FALSE----------------------------------------
 library(purrr)
 
 scale <- map_dfr(1:5, ~ {
@@ -153,26 +95,20 @@ scale <- map_dfr(1:5, ~ {
          seed = 33) %>% 
     mutate(scale = .x)
 })
-```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=3}
+## ---- echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=3----
 scale %>% 
   ggplot(aes(t, f)) +
   geom_line(aes(color = factor(scale), group = factor(scale)), size = 1.2) +
   ggsci::scale_color_locuszoom(name = "scale")
-```
 
-This is useful if you want to supplement `meandr` curve with additional noise. In example below, relative amplitude of noise is consistent across different `meandr` curves because we use fixed `scale`.
+## ---- eval = FALSE------------------------------------------------------------
+#  library(dplyr)
+#  
+#  meandr(scale = 4) %>%
+#    mutate(with_noise = f + rnorm(100, sd = 0.2))
 
-```{r, eval = FALSE}
-library(dplyr)
-
-meandr(scale = 4) %>% 
-  mutate(with_noise = f + rnorm(100, sd = 0.2))
-```
-
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=3}
+## ---- echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=3----
 library(tidyr)
 
 df1 <- meandr(n_points = 100, n_nodes = 500, wt = c(1, -1), scale = 4, seed = 33)
@@ -195,19 +131,14 @@ imap_dfr(list(df1, df2, df3), ~ {
         panel.spacing = unit(1, "lines"),
         axis.text.x = element_blank()) +
   labs(x = "", y = "")
-```
 
-## Under the hood
-
-A piecewise step-function is built by sampling elements (with replacement) from input `wt`. This serves as the 2nd derivative, $f''(t)$, shown below for `approach_3`.
-
-```{r}
+## -----------------------------------------------------------------------------
 wt <- c(1, -1) # default value
 set.seed(10)
 nodes <- sample(c(1, -1), size = 20, replace = TRUE)
 nodes
-```
-```{r, fig.width=7, fig.height=2, echo=FALSE}
+
+## ---- fig.width=7, fig.height=2, echo=FALSE-----------------------------------
 # define x-values
 x <- seq(1/100, 1, length.out = 100)
 
@@ -226,11 +157,8 @@ ggplot(data.frame(t = x, f = f2), aes(t, f)) +
   geom_point() +
   geom_line() +
   labs(y = "f''(t)")
-```
 
-Integrating once, we obtain the 1st derivative, $f'(t)$.
-
-```{r, fig.width=7, fig.height=2, echo=FALSE}
+## ---- fig.width=7, fig.height=2, echo=FALSE-----------------------------------
 inc <- c(node_int, 0)[-1] - node_int
 c1 <- c(0, cumsum(nodes * inc))
 c1 <- c1[-length(c1)]
@@ -242,13 +170,10 @@ ggplot(data.frame(t = x, f = f1), aes(t, f)) +
   geom_point(color = "#22B6FF") +
   geom_line(color = "#22B6FF") +
   labs(y = "f'(t)")
-```
 
-Integrating again, we obtain the final `meandr` curve, $f(t)$. This is superimposed on the 1st derivative below.
-
-```{r, fig.width=7, fig.height=2, echo=FALSE}
+## -----------------------------------------------------------------------------
 ggplot(approach_3, aes(t, f)) +
   geom_point(color = "#0063A6") +
   geom_line(color = "#0063A6") +
   geom_line(aes(t, f1), data = data.frame(t = x, f = f1), color = "#22B6FF")
-```
+
