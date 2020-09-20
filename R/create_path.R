@@ -66,5 +66,5 @@ create_path <- function(n_points = 100, nodes = c(1, -1, -1, 2, 0), node_int = N
 
   f <- f * scale / max(abs(f))
 
-  dplyr::tibble(x, f)
+  dplyr::tibble(t = x, f)
 }
