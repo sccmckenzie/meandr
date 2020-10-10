@@ -1,7 +1,7 @@
 Package: meandr
 Type: Package
 Title: Easily generate continuous coordinates following random trajectory
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Author: Scott McKenzie <sccmckenzie@gmail.com>
 Maintainer: Scott McKenzie <sccmckenzie@gmail.com>
 Description: Generate random data from continuously differentiable functions.

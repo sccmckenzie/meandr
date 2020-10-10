@@ -27,7 +27,7 @@ meandr(
 \item{seed}{A number passed to \code{set.seed} for repeatability. If \code{NULL}, no seed created.}
 }
 \value{
-A \code{tibble} containing x & y coordinates of resulting function.
+A \code{tibble} containing coordinates of resulting function.
 }
 \description{
 \code{meandr()} offers a calculus-driven approach to simulating random time-series behavior.

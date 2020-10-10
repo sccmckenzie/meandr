@@ -37,7 +37,7 @@ method_1 <- data.frame(t = 1:100,
                        f = rnorm(100))
 ```
 
-```{r, echo = FALSE, fig.width=7, fig.height=2}
+```{r, echo = FALSE, fig.width = 7, fig.height=2}
 plot_f(method_1) +
   labs(title = "Method 1")
 ```

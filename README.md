@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/sccmckenzie/meandr/workflows/R-CMD-check/badge.svg)](https://github.com/sccmckenzie/meandr/actions)
 <!-- badges: end -->
 
 `meandr` allows you to easily generate random data that is continuously
@@ -26,21 +28,20 @@ Each call to `meandr()` produces a unique tibble of coordinates.
 library(meandr)
 
 df <- meandr()
-
 df
 #> # A tibble: 100 x 2
-#>         t         f
-#>     <dbl>     <dbl>
-#>  1 0.01    1.79e- 2
-#>  2 0.02    3.57e- 2
-#>  3 0.03    1.79e- 2
-#>  4 0.04    1.45e-17
-#>  5 0.05   -1.79e- 2
-#>  6 0.06   -3.57e- 2
-#>  7 0.0700 -1.79e- 2
-#>  8 0.08    6.29e-17
-#>  9 0.09   -1.79e- 2
-#> 10 0.10   -7.14e- 2
+#>         t       f
+#>     <dbl>   <dbl>
+#>  1 0.01   -0.0179
+#>  2 0.02   -0.0357
+#>  3 0.03   -0.0179
+#>  4 0.04    0.0357
+#>  5 0.05    0.125 
+#>  6 0.06    0.214 
+#>  7 0.0700  0.268 
+#>  8 0.08    0.286 
+#>  9 0.09    0.268 
+#> 10 0.10    0.250 
 #> # ... with 90 more rows
 ```
 

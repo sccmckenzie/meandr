@@ -21,7 +21,7 @@ create_path(
 \item{scale}{A number. Adjusts all y-values so that max(y) = \code{scale}.}
 }
 \value{
-A tibble containing x & y coordinates of resulting function.
+A tibble containing coordinates of resulting function.
 }
 \description{
 Manually create data points corresponding to piecewise polynomial.

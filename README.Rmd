@@ -9,13 +9,16 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  dpi = 300,
+  type = 'cairo'
 )
 ```
 
 # meandr <img src='man/figures/logo.png' align="right" height="139" />
 
 <!-- badges: start -->
+[![R build status](https://github.com/sccmckenzie/meandr/workflows/R-CMD-check/badge.svg)](https://github.com/sccmckenzie/meandr/actions)
 <!-- badges: end -->
 
 `meandr` allows you to easily generate random data that is continuously differentiable (essentially a 2nd-order spline). This is particular useful for simulating time-series data such as weather conditions - or any physical phenomena that maintain a clear local trajectory.
@@ -34,12 +37,10 @@ Each call to `meandr()` produces a unique tibble of coordinates.
 library(meandr)
 
 df <- meandr()
-
 df
 ```
 `mplot` is included as a quick `ggplot2` wrapper.
 
-```{r plot, fig.width=7, fig.height=3}
+```{r plot, fig.height=3}
 mplot(df)
 ```
-
