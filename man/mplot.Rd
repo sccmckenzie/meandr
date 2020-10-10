@@ -7,12 +7,16 @@
 mplot(.df)
 }
 \arguments{
-\item{x}{A numeric vector or data frame containing at least two numeric columns.
-Numeric vector will be automatically paired with x-values in sequence from 0 to 1.}
+\item{.df}{A data frame containing at least two numeric columns.}
 }
 \value{
 An object of class `gg`
 }
 \description{
 Create simply line plot from x + y coordinates. Designed for `meandr` but can be used in other applications.
+}
+\examples{
+mplot(data.frame(x = 1:10, y = 1:10))
+
+mplot(meandr())
 }

@@ -35,3 +35,52 @@ natural <- function(x, x_arg = "x") {
     max(1L, as.integer(x), na.rm = TRUE)
   }
 }
+
+#' Perform sequential sample with weighted replacement
+#'
+#' @param x vector of elements from which to choose
+#' @param n a positive number, the number of items to choose from
+#' @param gain Tuning parameter.
+#'
+#' @importFrom utils tail
+#'
+#' @return numeric vector
+sample_roll <- function(x, n, gain = 0.75) {
+  prob <- matrix(1, nrow = n, ncol = length(x))
+
+  out <- vctrs::vec_cast(vector(length = n), to = x)
+
+  for (i in seq_along(out)) {
+    j <- sample(seq_along(x), size = 1, prob = prob[i, ])
+    out[i] <- x[j]
+
+    if (i < length(out)) {
+
+      out_filled <- out[!is.na(out)]
+
+      r_n  <- min(
+        max(
+          round(length(out) * 0.25, 0),
+          1
+        ),
+        length(out_filled)
+      )
+
+      # 1st derivative moving avg
+      s <- tail(
+        RcppRoll::roll_meanr(
+          cumsum(out_filled),
+          n = r_n
+          ),
+        1
+      )
+
+      if (s > 0) {
+        prob[i + 1,][x < 0] <- prob[i + 1,][x < 0] * exp(gain * s)
+      } else {
+        prob[i + 1,][x >= 0] <- prob[i + 1,][x >= 0] * exp(-gain * s)
+      }
+    }
+  }
+  out
+}

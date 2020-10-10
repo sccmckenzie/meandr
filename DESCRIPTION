@@ -1,7 +1,7 @@
 Package: meandr
 Type: Package
 Title: Easily generate continuous coordinates following random trajectory
-Version: 0.1.0
+Version: 0.0.0.9000
 Author: Scott McKenzie <sccmckenzie@gmail.com>
 Maintainer: Scott McKenzie <sccmckenzie@gmail.com>
 Description: Generate random data from continuously differentiable functions.
@@ -16,7 +16,8 @@ Imports:
     ggplot2,
     vctrs,
     purrr,
-    glue
+    glue,
+    RcppRoll
 RoxygenNote: 7.1.0
 URL: https://github.com/sccmckenzie/meandr
 BugReports: https://github.com/sccmckenzie/meandr/issues
@@ -24,5 +25,6 @@ Suggests:
     knitr,
     rmarkdown,
     ggsci,
-    tidyr
+    tidyr,
+    forcats
 VignetteBuilder: knitr

@@ -16,7 +16,7 @@ create_path(
 
 \item{nodes}{A numeric vector corresponding to 2nd derivative values. This determines the overall shape of the function.}
 
-\item{node_int}{A numeric vector assigning x-values for nodes. Automatically calculated if \code{NULL}.}
+\item{node_int}{A numeric vector assigning x-values for nodes. Automatically placed at equal intervals if \code{NULL}.}
 
 \item{scale}{A number. Adjusts all y-values so that max(y) = \code{scale}.}
 }
@@ -31,7 +31,15 @@ with scalar values defined by \code{nodes}, \code{create_path()} integrates twic
 create continuously differentiable function.
 
 \code{create_path()} is the underlying function to \code{meandr()}.
+
+If you are trying to generate random curve, it is strongly recommended to use meandr().
 }
 \examples{
-Write vignette first
+# quadratic increase followed by linear slope
+create_path(nodes = c(1, 0))
+
+# resembles sinusoid
+create_path(nodes = c(1, -1, 1, -1, 1), node_int = c(0, 0.125, 0.375, 0.625, 0.875))
+
+
 }

@@ -171,7 +171,7 @@ ggplot(data.frame(t = x, f = f1), aes(t, f)) +
   geom_line(color = "#22B6FF") +
   labs(y = "f'(t)")
 
-## -----------------------------------------------------------------------------
+## ---- fig.width=7, fig.height=2, echo=FALSE-----------------------------------
 ggplot(approach_3, aes(t, f)) +
   geom_point(color = "#0063A6") +
   geom_line(color = "#0063A6") +

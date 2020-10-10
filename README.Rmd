@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-`meandr` allows you to easily generate random data from continuously differentiable functions. This is particular useful for simulating time-series data such as weather conditions - or any physical phenomena that maintain a clear local trajectory.
+`meandr` allows you to easily generate random data that is continuously differentiable (essentially a 2nd-order spline). This is particular useful for simulating time-series data such as weather conditions - or any physical phenomena that maintain a clear local trajectory.
 
 ## Installation
 
@@ -28,10 +28,18 @@ devtools::install_github("sccmckenzie/meandr")
 
 ## Example
 
+Each call to `meandr()` produces a unique tibble of coordinates.
+
 ```{r example, warning = FALSE, message = FALSE}
-library(dplyr)
 library(meandr)
 
-meandr(seed = 17) %>% 
-  mplot()
+df <- meandr()
+
+df
 ```
+`mplot` is included as a quick `ggplot2` wrapper.
+
+```{r plot, fig.width=7, fig.height=3}
+mplot(df)
+```
+

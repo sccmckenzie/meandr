@@ -24,15 +24,32 @@
 #' @param n_nodes An integer. Defines number of distinct inflection points in function.
 #' @param wt A numeric vector of values. These will be sampled (with replacement) \code{n_nodes} times to create inflection points.
 #' @param scale A number. Adjusts all y-values so that \code{max(y) = scale}.
+#' @param gain Tuning parameter.
 #' @param seed A number passed to \code{set.seed} for repeatability. If \code{NULL}, no seed created.
 #'
 #' @return
-#' A \code{tibble} containing x & y coordinates of resulting function.
+#' A \code{tibble} containing coordinates of resulting function.
 #' @export
 #'
 #' @examples
-#' Write vignette first
-meandr <- function(n_points = 100L, n_nodes = 100L, wt = c(1.0, -1.0), scale = 1.0, seed = NULL) {
+#'
+#' # See vignette("meandr")
+#'
+#' # each call produces unique output
+#' meandr()
+#'
+#' # use meandr::mplot for quick plotting
+#' mplot(meandr())
+#'
+#' # n_nodes has the most impact on curve complexity
+#' curve1 <- meandr(n_nodes = 5)
+#' mplot(curve1) # simple piecewise quadratic
+#'
+#' curve2 <- meandr(n_nodes = 200)
+#' mplot(curve2) # more meandering!
+#'
+#'
+meandr <- function(n_points = 100L, n_nodes = 100L, wt = c(1.0, -1.0), scale = 1.0, gain = 0.75, seed = NULL) {
 
   n_nodes <- natural(n_nodes, x_arg = "n_nodes")
   wt <- vctrs::vec_cast(wt, double(), x_arg = "wt")
@@ -45,7 +62,7 @@ meandr <- function(n_points = 100L, n_nodes = 100L, wt = c(1.0, -1.0), scale = 1
   }
 
   # create nodes
-  wts <- sample(wt, size = n_nodes, replace = TRUE)
+  wts <- sample_roll(wt, n = n_nodes, gain = gain)
 
   # call create_path
   df <- suppressMessages(

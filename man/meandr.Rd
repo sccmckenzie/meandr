@@ -4,7 +4,14 @@
 \alias{meandr}
 \title{Generate random coordinates following continuous trajectory}
 \usage{
-meandr(n_points = 100L, n_nodes = 100L, wt = c(1, -1), scale = 1, seed = NULL)
+meandr(
+  n_points = 100L,
+  n_nodes = 100L,
+  wt = c(1, -1),
+  scale = 1,
+  gain = 0.75,
+  seed = NULL
+)
 }
 \arguments{
 \item{n_points}{An integer. Controls output "resolution". (Underlying calculus is unaffected).}
@@ -14,6 +21,8 @@ meandr(n_points = 100L, n_nodes = 100L, wt = c(1, -1), scale = 1, seed = NULL)
 \item{wt}{A numeric vector of values. These will be sampled (with replacement) \code{n_nodes} times to create inflection points.}
 
 \item{scale}{A number. Adjusts all y-values so that \code{max(y) = scale}.}
+
+\item{gain}{Tuning parameter.}
 
 \item{seed}{A number passed to \code{set.seed} for repeatability. If \code{NULL}, no seed created.}
 }
@@ -39,5 +48,21 @@ Each call to \code{meandr()} follows below execution flow:\cr
 (4) Output coordinates in \code{tibble}
 }
 \examples{
-Write vignette first
+
+# See vignette("meandr")
+
+# each call produces unique output
+meandr()
+
+# use meandr::mplot for quick plotting
+mplot(meandr())
+
+# n_nodes has the most impact on curve complexity
+curve1 <- meandr(n_nodes = 5)
+mplot(curve1) # simple piecewise quadratic
+
+curve2 <- meandr(n_nodes = 200)
+mplot(curve2) # more meandering!
+
+
 }

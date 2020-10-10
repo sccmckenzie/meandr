@@ -10,18 +10,25 @@
 #'
 #' \code{create_path()} is the underlying function to \code{meandr()}.
 #'
+#' If you are trying to generate random curve, it is strongly recommended to use meandr().
 #'
 #' @param n_points An integer. Controls output "resolution". (Underlying calculus is unaffected).
 #' @param nodes A numeric vector corresponding to 2nd derivative values. This determines the overall shape of the function.
-#' @param node_int A numeric vector assigning x-values for nodes. Automatically calculated if \code{NULL}.
+#' @param node_int A numeric vector assigning x-values for nodes. Automatically placed at equal intervals if \code{NULL}.
 #' @param scale A number. Adjusts all y-values so that max(y) = \code{scale}.
 #'
 #' @return
-#' A tibble containing x & y coordinates of resulting function.
+#' A tibble containing coordinates of resulting function.
 #' @export
 #'
 #' @examples
-#' Write vignette first
+#' # quadratic increase followed by linear slope
+#' create_path(nodes = c(1, 0))
+#'
+#' # resembles sinusoid
+#' create_path(nodes = c(1, -1, 1, -1, 1), node_int = c(0, 0.125, 0.375, 0.625, 0.875))
+#'
+#'
 create_path <- function(n_points = 100, nodes = c(1, -1, -1, 2, 0), node_int = NULL, scale = 1.0) {
 
   # verify inputs
@@ -51,7 +58,7 @@ create_path <- function(n_points = 100, nodes = c(1, -1, -1, 2, 0), node_int = N
   f2 = nodes[x_int]
 
   # 1st derivative
-  inc <- c(node_int, 0)[-1] - node_int
+  inc <- c(node_int, 1)[-1] - node_int
   c1 <- c(0, cumsum(nodes * inc))
   c1 <- c1[-length(c1)]
 
