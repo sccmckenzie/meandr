@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/sccmckenzie/meandr/workflows/R-CMD-check/badge.svg)](https://github.com/sccmckenzie/meandr/actions)
 <!-- badges: end -->
 
-`meandr` allows you to easily generate random data that is continuously differentiable (essentially a 2nd-order spline). This is particular useful for simulating time-series data such as weather conditions - or any physical phenomena that maintain a clear local trajectory.
+`meandr` allows for easy generation of random coordinates that are continuously differentiable (essentially a 2nd-order spline). This is particularly useful for simulating time-series data such as weather conditions - or any physical phenomena that maintain a clear local trajectory.
 
 ## Installation
 
@@ -32,6 +32,11 @@ devtools::install_github("sccmckenzie/meandr")
 ## Example
 
 Each call to `meandr()` produces a unique tibble of coordinates.
+
+```{r}
+set.seed(17)
+```
+
 
 ```{r example, warning = FALSE, message = FALSE}
 library(meandr)
