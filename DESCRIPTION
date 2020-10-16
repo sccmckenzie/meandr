@@ -18,7 +18,7 @@ Imports:
     purrr,
     glue,
     RcppRoll
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 URL: https://github.com/sccmckenzie/meandr
 BugReports: https://github.com/sccmckenzie/meandr/issues
 Suggests: 
