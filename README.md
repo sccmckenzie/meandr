@@ -7,13 +7,14 @@
 
 [![R build
 status](https://github.com/sccmckenzie/meandr/workflows/R-CMD-check/badge.svg)](https://github.com/sccmckenzie/meandr/actions)
+[![Travis build
+status](https://travis-ci.com/sccmckenzie/meandr.svg?branch=master)](https://travis-ci.com/sccmckenzie/meandr)
 <!-- badges: end -->
 
-`meandr` allows for easy generation of random coordinates that are
-continuously differentiable (essentially a 2nd-order spline). This is
-particularly useful for simulating time-series data such as weather
-conditions - or any physical phenomena that maintain a clear local
-trajectory.
+`meandr` allows for easy generation of coordinates that are **random,
+yet continuously differentiable**. This is particularly useful for
+simulating time-series measurements of physical phenomena that maintain
+a clear local trajectory.
 
 ## Installation
 
@@ -21,39 +22,61 @@ trajectory.
 devtools::install_github("sccmckenzie/meandr")
 ```
 
-## Example
+## Why meandr?
 
-Each call to `meandr()` produces a unique tibble of coordinates.
+Suppose we want to simulate behavior of a “somewhat random” time-series
+phenomenon. That is, something that obeys well-understood physical laws
+(outdoor temperature is not going to drop 100 degrees in 1 second).
+
+We could use method \#1 below:
 
 ``` r
-set.seed(17)
+method_1 <- data.frame(t = 1:100,
+                       f = rnorm(100))
 ```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+This is okay, but what if we’re feeling more adventurous?
+
+  - Outdoor temperature
+  - Train station crowd density
+  - Stock price
+
+Using above `rnorm` method, which doesn’t provide any prolonged
+directional consistency, may not adequately emulate the *character* of
+these examples.
+
+`meandr` offers a solution to this problem. Each call to `meandr()`
+generates a unique `tibble` of **t** and **f** coordinates. For
+reproducibility, a `seed` argument is provided.
 
 ``` r
 library(meandr)
 
-df <- meandr()
-df
+df1 <- meandr(n_points = 100,
+              n_nodes = 20,
+              seed = 2)
+
+df1
 #> # A tibble: 100 x 2
-#>         t       f
-#>     <dbl>   <dbl>
-#>  1 0.01   -0.0128
-#>  2 0.02   -0.0513
-#>  3 0.03   -0.0897
-#>  4 0.04   -0.128 
-#>  5 0.05   -0.167 
-#>  6 0.06   -0.179 
-#>  7 0.0700 -0.192 
-#>  8 0.08   -0.205 
-#>  9 0.09   -0.192 
-#> 10 0.10   -0.179 
+#>         t        f
+#>     <dbl>    <dbl>
+#>  1 0.01   -0.00400
+#>  2 0.02   -0.0160 
+#>  3 0.03   -0.0360 
+#>  4 0.04   -0.0640 
+#>  5 0.05   -0.100  
+#>  6 0.06   -0.144  
+#>  7 0.0700 -0.196  
+#>  8 0.08   -0.256  
+#>  9 0.09   -0.324  
+#> 10 0.10   -0.400  
 #> # ... with 90 more rows
 ```
 
-`mplot` is included as a quick `ggplot2` wrapper.
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
-``` r
-mplot(df)
-```
-
-<img src="man/figures/README-plot-1.png" width="100%" />
+Observe `df1` curve trajectory never radically changes between two
+points. This is a key feature of `meandr`: **all curves are continuously
+differentiable**.

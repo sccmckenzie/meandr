@@ -13,15 +13,27 @@ knitr::opts_chunk$set(
   dpi = 300,
   type = 'cairo'
 )
+
+library(ggplot2)
+library(dplyr)
+set.seed(17)
+theme_set(theme_minimal())
+
+plot_f <- function(df) {
+  ggplot(df, aes(t, f)) +
+    geom_point(color = "#175C4A") +
+    geom_line(color = "#175C4A")
+}
 ```
 
 # meandr <img src='man/figures/logo.png' align="right" height="139" />
 
 <!-- badges: start -->
 [![R build status](https://github.com/sccmckenzie/meandr/workflows/R-CMD-check/badge.svg)](https://github.com/sccmckenzie/meandr/actions)
+[![Travis build status](https://travis-ci.com/sccmckenzie/meandr.svg?branch=master)](https://travis-ci.com/sccmckenzie/meandr)
 <!-- badges: end -->
 
-`meandr` allows for easy generation of random coordinates that are continuously differentiable (essentially a 2nd-order spline). This is particularly useful for simulating time-series data such as weather conditions - or any physical phenomena that maintain a clear local trajectory.
+`meandr` allows for easy generation of coordinates that are **random, yet continuously differentiable**. This is particularly useful for simulating time-series measurements of physical phenomena that maintain a clear local trajectory.
 
 ## Installation
 
@@ -29,23 +41,45 @@ knitr::opts_chunk$set(
 devtools::install_github("sccmckenzie/meandr")
 ```
 
-## Example
+## Why meandr?
 
-Each call to `meandr()` produces a unique tibble of coordinates.
+Suppose we want to simulate behavior of a "somewhat random" time-series phenomenon. That is, something that obeys well-understood physical laws (outdoor temperature is not going to drop 100 degrees in 1 second).
+
+We could use method #1 below:
 
 ```{r}
-set.seed(17)
+method_1 <- data.frame(t = 1:100,
+                       f = rnorm(100))
 ```
 
+```{r, echo = FALSE, fig.width = 7, fig.height=2}
+plot_f(method_1) +
+  labs(title = "Random coordinates using rnorm()")
+```
 
-```{r example, warning = FALSE, message = FALSE}
+This is okay, but what if we're feeling more adventurous?
+
+* Outdoor temperature
+* Train station crowd density
+* Stock price
+
+Using above `rnorm` method, which doesn't provide any prolonged directional consistency, may not adequately emulate the *character* of these examples.
+
+`meandr` offers a solution to this problem. Each call to `meandr()` generates a unique `tibble` of **t** and **f** coordinates. For reproducibility, a `seed` argument is provided.
+
+```{r}
 library(meandr)
 
-df <- meandr()
-df
-```
-`mplot` is included as a quick `ggplot2` wrapper.
+df1 <- meandr(n_points = 100,
+              n_nodes = 20,
+              seed = 2)
 
-```{r plot, fig.height=3}
-mplot(df)
+df1
 ```
+
+```{r echo = FALSE, fig.width=7, fig.height=3}
+plot_f(df1) +
+  labs(title = "meandr()", subtitle = "Example Output")
+```
+
+Observe `df1` curve trajectory never radically changes between two points. This is a key feature of `meandr`: **all curves are continuously differentiable**.
