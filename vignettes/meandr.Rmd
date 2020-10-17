@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 
 library(ggplot2)
 library(dplyr)
-set.seed(17)
 theme_set(theme_minimal())
 
 plot_f <- function(df) {
@@ -35,15 +34,17 @@ In general, modulating `n_nodes` should provide sufficient control. Here, the *n
 Holding `seed` constant at `2`, observe that increasing `n_nodes` allows below function to **meander** into new territory. In other words, `df2` is just an augmented variation of `df1`.
 
 ```{r}
-df2 <- meandr(n_points = 100,
-              n_nodes = 100, # increased from 20
-              wt = c(1, -1),
-              seed = 2) # same seed as df1
+library(meandr)
+
+df <- meandr(n_points = 100,
+             n_nodes = 100, # increased from 20
+             wt = c(1, -1),
+             seed = 2) # same seed as df1
 ```
 
 
 ```{r echo = FALSE, fig.width=7, fig.height=3}
-df2 %>% 
+df %>% 
   mutate(color = t > 0.25) %>% 
   ggplot(aes(t, f)) +
   geom_point(aes(color = color)) +
