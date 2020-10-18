@@ -133,21 +133,17 @@ Inputs <code>n_nodes</code> and <code>wt</code> serve as tuning knobs for overal
     </div>
 
     <pre class="usage"><span class='fu'>meandr</span><span class='op'>(</span>
-  n_points <span class='op'>=</span> <span class='fl'>100L</span>,
   n_nodes <span class='op'>=</span> <span class='fl'>100L</span>,
   wt <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>,
-  scale <span class='op'>=</span> <span class='fl'>1</span>,
   gain <span class='op'>=</span> <span class='fl'>0.75</span>,
+  n_points <span class='op'>=</span> <span class='fl'>100L</span>,
+  scale <span class='op'>=</span> <span class='fl'>1</span>,
   seed <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>n_points</th>
-      <td><p>An integer. Controls output "resolution". (Underlying calculus is unaffected).</p></td>
-    </tr>
     <tr>
       <th>n_nodes</th>
       <td><p>An integer. Defines number of distinct inflection points in function.</p></td>
@@ -157,12 +153,16 @@ Inputs <code>n_nodes</code> and <code>wt</code> serve as tuning knobs for overal
       <td><p>A numeric vector of values. These will be sampled (with replacement) <code>n_nodes</code> times to create inflection points.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>A number. Adjusts all y-values so that <code>max(y) = scale</code>.</p></td>
-    </tr>
-    <tr>
       <th>gain</th>
       <td><p>Tuning parameter.</p></td>
+    </tr>
+    <tr>
+      <th>n_points</th>
+      <td><p>An integer. Controls output "resolution". (Underlying calculus is unaffected).</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>A number. Adjusts all y-values so that <code>max(y) = scale</code>.</p></td>
     </tr>
     <tr>
       <th>seed</th>

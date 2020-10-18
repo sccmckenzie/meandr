@@ -5,24 +5,24 @@
 \title{Generate random coordinates following continuous trajectory}
 \usage{
 meandr(
-  n_points = 100L,
   n_nodes = 100L,
   wt = c(1, -1),
-  scale = 1,
   gain = 0.75,
+  n_points = 100L,
+  scale = 1,
   seed = NULL
 )
 }
 \arguments{
-\item{n_points}{An integer. Controls output "resolution". (Underlying calculus is unaffected).}
-
 \item{n_nodes}{An integer. Defines number of distinct inflection points in function.}
 
 \item{wt}{A numeric vector of values. These will be sampled (with replacement) \code{n_nodes} times to create inflection points.}
 
-\item{scale}{A number. Adjusts all y-values so that \code{max(y) = scale}.}
-
 \item{gain}{Tuning parameter.}
+
+\item{n_points}{An integer. Controls output "resolution". (Underlying calculus is unaffected).}
+
+\item{scale}{A number. Adjusts all y-values so that \code{max(y) = scale}.}
 
 \item{seed}{A number passed to \code{set.seed} for repeatability. If \code{NULL}, no seed created.}
 }

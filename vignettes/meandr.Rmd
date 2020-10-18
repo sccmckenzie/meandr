@@ -1,9 +1,9 @@
 ---
-title: "Introduction to meandr"
+title: "Getting Started with meandr"
 author: "Scott McKenzie"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to meandr}
+  %\VignetteIndexEntry{Getting Started with meandr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 library(ggplot2)
 library(dplyr)
 theme_set(theme_minimal())
+set.seed(17)
 
 plot_f <- function(df) {
   ggplot(df, aes(t, f)) +
@@ -25,26 +26,71 @@ plot_f <- function(df) {
 }
 ```
 
+## Motivation
 
-### Acheiving desired curve
+When working with time-series data (or any dataset with 1 distinct y-value for each x), there often arises a practical need to develop & optimize a transformation. For example, moving average is used in a wide variety of settings ranging from Daily COVID hospitalizations to financial technical analysis. Such metrics have enormous potential public and/or business implications. This warrants extensive testing prior to implementing a transformation used to generate metric of interest.
 
-#### 1. n_nodes
-In general, modulating `n_nodes` should provide sufficient control. Here, the *nodes* correspond to inflection points.
+Whether it's due to cost or time, the lack of real-world data is a probable challenge in this setting - necessitating the generation of simulated data. However, it might not be feasible or cost-effective to develop a rigorous model fully characterizing the phenomenon of interest. Any coordinates following an arbitrary (yet continuous) trajectory might be sufficient to test and optimize a transformation. `meandr` is designed to fulfill this need. 
 
-Holding `seed` constant at `2`, observe that increasing `n_nodes` allows below function to **meander** into new territory. In other words, `df2` is just an augmented variation of `df1`.
+## Basic Usage
+
+Each call to `meandr()` outputs coordinates from a **continuously-differentiable-piecewise-polynomial**. In other words: a 2nd-order spline.
 
 ```{r}
 library(meandr)
 
-df <- meandr(n_points = 100,
-             n_nodes = 100, # increased from 20
-             wt = c(1, -1),
-             seed = 2) # same seed as df1
+example <- meandr() # you can call meandr without explicit arguments
+```
+
+```{r echo = FALSE, fig.width=7, fig.height=3}
+plot_f(example) +
+  labs(title = "example")
+```
+
+You can supply arguments if you wish to change default curve behavior. These are discussed in the next section.
+
+```{r eval = FALSE}
+meandr(
+  n_nodes = 100L,  # number of inflection points (more nodes -> more intricate curve)
+  wt = c(1, -1),   # values used to generate 2nd derivative (these are sampled with replacement)
+  gain = 0.75,     # controls sensitivity of wt sampling
+  n_points = 100L, # number of coordinates (aka resolution)
+  scale = 1,       # scales all f(t) values so that max(f(t)) == scale
+  seed = NULL      # for reproducibility
+)
+```
+
+## Arguments
+
+### n_nodes
+In general, modulating `n_nodes` should provide sufficient control. Here, the **nodes** correspond to inflection points.
+
+```{r}
+nodes_20 <- meandr(n_points = 100,
+                   n_nodes = 20,
+                   wt = c(1, -1),
+                   seed = 2)
 ```
 
 
 ```{r echo = FALSE, fig.width=7, fig.height=3}
-df %>% 
+nodes_20 %>% 
+  plot_f() +
+  labs(title = "nodes_20")
+  
+```
+
+Holding `seed` constant at `2`, observe that increasing `n_nodes` allows below function to **meander** into new territory. In other words, `df2` is just an augmented variation of `df1`.
+```{r}
+nodes_100 <- meandr(n_points = 100,
+                    n_nodes = 100, # increased from 20
+                    wt = c(1, -1),
+                    seed = 2)
+```
+
+
+```{r echo = FALSE, fig.width=7, fig.height=3}
+nodes_100 %>% 
   mutate(color = t > 0.25) %>% 
   ggplot(aes(t, f)) +
   geom_point(aes(color = color)) +
@@ -52,42 +98,15 @@ df %>%
   ggsci::scale_color_locuszoom() +
   theme(legend.position = "none") +
 geom_vline(xintercept = 0.25, color = "slategray") +
-  geom_label(label = "included in df1", fill = "#D43F3AFF", color = "white", x = 0.25, y = 0.35, hjust = 1.05, label.padding = unit(0.25, "lines")) +
+  geom_label(label = "included in nodes_20", fill = "#D43F3AFF", color = "white", x = 0.25, y = 0.35, hjust = 1.05, label.padding = unit(0.4, "lines")) +
   geom_segment(color = "slategray", x = 0.25, xend = 0.2, y = 0.2, yend = 0.2, arrow = arrow(length = unit(0.05, "npc"))) +
-  geom_label(label = "new territory with df2", x = 0.25, y = 0.35, hjust = -0.05, label.padding = unit(0.25, "lines"), fill = "#EEA236FF", color = "white") +
+  geom_label(label = "new territory with nodes_100", x = 0.25, y = 0.35, hjust = -0.05, label.padding = unit(0.4, "lines"), fill = "#EEA236FF", color = "white") +
   geom_segment(color = "slategray", x = 0.25, xend = 0.3, y = 0.2, yend = 0.2, arrow = arrow(length = unit(0.05, "npc"))) +
-  labs(title = "df2")
+  labs(title = "nodes_100")
   
 ```
 
-#### 2. n_points
-
-Use `n_points` to adjust output resolution. This does not affect underlying calculus driving curve shape. Example below uses same seed `2` as before.
-
-```{r}
-res1 <- meandr(n_points = 10, # low resolution
-               n_nodes = 100,
-               seed = 2)
-
-res2 <- meandr(n_points = 1000, # high resolution
-               n_nodes = 100,
-               seed = 2)
-```
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=3}
-library(dplyr)
-
-res1 <- mutate(res1, curve = "res1")
-res2 <- mutate(res2, curve = "res2")
-
-bind_rows(res1, res2) %>% 
-  ggplot(aes(t, f)) +
-  geom_line(aes(color = curve, group = curve), size = 1.2) +
-  ggsci::scale_color_lancet() +
-  labs(title = "n_points", subtitle = "10 vs 1000")
-```
-
-#### 3. wt & gain
+### wt & gain
 
 Each call to `meandr` first constructs a piecewise step-function by sampling elements from input `wt`. The resulting step-function serves as the 2nd derivative, $f''(t)$, which `meandr` integrates twice to obtain final result.
 
@@ -197,7 +216,34 @@ gain3 <- meandr(gain = 1000) # 1000 doesn't work because exp(1000) returns Inf
 #> Error in sample.int(length(x), size, replace, prob): NA in probability vector
 ```
 
-#### 4. scale
+### n_points
+
+Use `n_points` to adjust output resolution. This does not affect underlying calculus driving curve shape. Example below uses same seed `2` as before.
+
+```{r}
+res1 <- meandr(n_points = 10, # low resolution
+               n_nodes = 100,
+               seed = 2)
+
+res2 <- meandr(n_points = 1000, # high resolution
+               n_nodes = 100,
+               seed = 2)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=3}
+library(dplyr)
+
+res1 <- mutate(res1, curve = "res1")
+res2 <- mutate(res2, curve = "res2")
+
+bind_rows(res1, res2) %>% 
+  ggplot(aes(t, f)) +
+  geom_line(aes(color = curve, group = curve), size = 1.2) +
+  ggsci::scale_color_lancet() +
+  labs(title = "n_points", subtitle = "10 vs 1000")
+```
+
+### scale
 
 `meandr` will adjust output so that $max(f) = scale$.
 

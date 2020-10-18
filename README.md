@@ -25,8 +25,15 @@ devtools::install_github("sccmckenzie/meandr")
 ## Why meandr?
 
 Suppose we want to simulate behavior of a “somewhat random” time-series
-phenomenon. That is, something that obeys well-understood physical laws
-(outdoor temperature is not going to drop 100 degrees in 1 second).
+phenomenon.
+
+  - Outdoor temperature
+  - Train station crowd density
+  - Stock price
+
+Although we can’t predict the exact values of these examples, we know
+how they will behave to a certain extent. For instance, outdoor
+temperature is not going to drop by 100 degrees in 1 second.
 
 We could use method \#1 below:
 
@@ -37,15 +44,8 @@ method_1 <- data.frame(t = 1:100,
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
-This is okay, but what if we’re feeling more adventurous?
-
-  - Outdoor temperature
-  - Train station crowd density
-  - Stock price
-
-Using above `rnorm` method, which doesn’t provide any prolonged
-directional consistency, may not adequately emulate the *character* of
-these examples.
+The above data doesn’t exhibit any prolonged directional consistency.
+This may not adequately emulate the *character* of the above examples.
 
 `meandr` offers a solution to this problem. Each call to `meandr()`
 generates a unique `tibble` of **t** and **f** coordinates. For
