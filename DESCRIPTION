@@ -24,7 +24,9 @@ Suggests:
     rmarkdown,
     ggsci,
     tidyr,
-    forcats
+    forcats,
+    lubridate,
+    scales
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
