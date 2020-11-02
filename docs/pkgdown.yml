@@ -2,6 +2,7 @@ pandoc: 2.9.2.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  case: case.html
   meandr: meandr.html
-last_built: 2020-10-18T14:00Z
+last_built: 2020-11-02T22:21Z
 

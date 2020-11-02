@@ -56,6 +56,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/case.html">Case Study</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -200,7 +212,7 @@
          wt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>,
          scale <span class="op">=</span> <span class="va">.x</span>,
          seed <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-    <span class="fu">mutate</span><span class="op">(</span>scale <span class="op">=</span> <span class="va">.x</span><span class="op">)</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="va">.x</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 <p>This is useful if you want to supplement <code>meandr</code> curve with additional noise. In example below, relative amplitude of noise is consistent across different <code>meandr</code> curves because we use fixed <code>scale</code>.</p>
