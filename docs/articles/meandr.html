@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -56,23 +56,11 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/case.html">Case Study</a>
-    </li>
-  </ul>
-</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/sccmckenzie/meandr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -86,7 +74,7 @@
 
       
 
-      </header><script src="meandr_files/header-attrs-2.4/header-attrs.js"></script><script src="meandr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="meandr_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started with meandr</h1>
@@ -110,21 +98,21 @@
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic Usage</h2>
 <p>Each call to <code><a href="../reference/meandr.html">meandr()</a></code> outputs coordinates from a <strong>continuously-differentiable-piecewise-polynomial</strong>. In other words: a 2nd-order spline.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sccmckenzie/meandr">meandr</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sccmckenzie/meandr">meandr</a></span><span class="op">)</span>
 
-<span class="va">example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># you can call meandr without explicit arguments</span></pre></div>
+<span class="va">example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># you can call meandr without explicit arguments</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>You can supply arguments if you wish to change default curve behavior. These are discussed in the next section.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>
   n_nodes <span class="op">=</span> <span class="fl">100L</span>,  <span class="co"># number of inflection points (more nodes -&gt; more intricate curve)</span>
   wt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>,   <span class="co"># values used to generate 2nd derivative (these are sampled with replacement)</span>
   gain <span class="op">=</span> <span class="fl">0.75</span>,     <span class="co"># controls sensitivity of wt sampling</span>
   n_points <span class="op">=</span> <span class="fl">100L</span>, <span class="co"># number of coordinates (aka resolution)</span>
   scale <span class="op">=</span> <span class="fl">1</span>,       <span class="co"># scales all f(t) values so that max(f(t)) == scale</span>
   seed <span class="op">=</span> <span class="cn">NULL</span>      <span class="co"># for reproducibility</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 </div>
 <div id="arguments" class="section level2">
 <h2 class="hasAnchor">
@@ -133,18 +121,18 @@
 <h3 class="hasAnchor">
 <a href="#n_nodes" class="anchor"></a>n_nodes</h3>
 <p>In general, modulating <code>n_nodes</code> should provide sufficient control. Here, the <strong>nodes</strong> correspond to inflection points.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">nodes_20</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">100</span>,
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nodes_20</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">100</span>,
                    n_nodes <span class="op">=</span> <span class="fl">20</span>,
                    wt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>,
-                   seed <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+                   seed <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>Holding <code>seed</code> constant at <code>2</code>, observe that increasing <code>n_nodes</code> allows below function to <strong>meander</strong> into new territory. In other words, <code>df2</code> is just an augmented variation of <code>df1</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">nodes_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">100</span>,
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nodes_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">100</span>,
                     n_nodes <span class="op">=</span> <span class="fl">100</span>, <span class="co"># increased from 20</span>
                     wt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>,
-                    seed <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+                    seed <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 <div id="wt-gain" class="section level3">
@@ -152,16 +140,16 @@
 <a href="#wt-gain" class="anchor"></a>wt &amp; gain</h3>
 <p>Each call to <code>meandr</code> first constructs a piecewise step-function by sampling elements from input <code>wt</code>. The resulting step-function serves as the 2nd derivative, <span class="math inline">\(f''(t)\)</span>, which <code>meandr</code> integrates twice to obtain final result.</p>
 <p>This complete procedure is shown below:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">200</span>,
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">200</span>,
        n_nodes <span class="op">=</span> <span class="fl">50</span>,
        wt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, <span class="co"># default value</span>
-       seed <span class="op">=</span> <span class="fl">1010</span><span class="op">)</span></pre></div>
+       seed <span class="op">=</span> <span class="fl">1010</span><span class="op">)</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>The <code>wt</code> sampling forming <span class="math inline">\(f''(t)\)</span> utilizes a special algorithm that strives for alternating positive &amp; negative values. This is to prevent <code>meandr</code> from generating “boring” curves.</p>
 <p>Increasing input <code>gain</code> will increase the sensitivity of the <code>wt</code> sampling algorithm, ultimately resulting in a curve with greater local variation. Note, however, that the local effects of changing <code>gain</code> will cascade with increasing <span class="math inline">\(t\)</span>, resulting in an altogether different curve for the same <code>seed</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">gain1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">200</span>,
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gain1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">200</span>,
                 n_nodes <span class="op">=</span> <span class="fl">50</span>,
                 gain <span class="op">=</span> <span class="fl">0.75</span>, <span class="co"># default</span>
                 seed <span class="op">=</span> <span class="fl">1010</span><span class="op">)</span>
@@ -169,42 +157,42 @@
 <span class="va">gain2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">200</span>,
                 n_nodes <span class="op">=</span> <span class="fl">50</span>,
                 gain <span class="op">=</span> <span class="fl">2</span>, <span class="co"># increase, this will inject more variance into 2nd derivative</span>
-                seed <span class="op">=</span> <span class="fl">1010</span><span class="op">)</span></pre></div>
+                seed <span class="op">=</span> <span class="fl">1010</span><span class="op">)</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>The default value of <code>wt</code>, <code><a href="https://rdrr.io/r/base/c.html">c(1, -1)</a></code>, is appropriate for lower levels of <code>gain</code> near <code>0.75</code>. However, <code>gain2</code> curve above looks slightly unnatural, as one can clearly tell this is simply a series of pure quadratic polynomials chained together. We can avoid this effect by adjusting <code>wt</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">custom_wt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">200</span>,
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">custom_wt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">200</span>,
                     n_nodes <span class="op">=</span> <span class="fl">50</span>,
                     wt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>, <span class="co"># more variety in 2nd derivative values</span>
                     gain <span class="op">=</span> <span class="fl">2</span>,
-                    seed <span class="op">=</span> <span class="fl">1010</span><span class="op">)</span></pre></div>
+                    seed <span class="op">=</span> <span class="fl">1010</span><span class="op">)</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <p><strong>Beware!</strong> The <code>wt</code> algorithm passes <code>gain</code> to <code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code>, so you won’t observe much difference as <span class="math inline">\(e^{gain} \rightarrow \infty\)</span>. I recommend starting at the default value of <code>0.75</code> and making incremental adjustments as needed.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">gain3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>gain <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="co"># 1000 doesn't work because exp(1000) returns Inf</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gain3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>gain <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="co"># 1000 doesn't work because exp(1000) returns Inf</span>
 
-<span class="co">#&gt; Error in sample.int(length(x), size, replace, prob): NA in probability vector</span></pre></div>
+<span class="co">#&gt; Error in sample.int(length(x), size, replace, prob): NA in probability vector</span></code></pre></div>
 </div>
 <div id="n_points" class="section level3">
 <h3 class="hasAnchor">
 <a href="#n_points" class="anchor"></a>n_points</h3>
 <p>Use <code>n_points</code> to adjust output resolution. This does not affect underlying calculus driving curve shape. Example below uses same seed <code>2</code> as before.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">10</span>, <span class="co"># low resolution</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">10</span>, <span class="co"># low resolution</span>
                n_nodes <span class="op">=</span> <span class="fl">100</span>,
                seed <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 
 <span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">1000</span>, <span class="co"># high resolution</span>
                n_nodes <span class="op">=</span> <span class="fl">100</span>,
-               seed <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+               seed <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 </div>
 <div id="scale" class="section level3">
 <h3 class="hasAnchor">
 <a href="#scale" class="anchor"></a>scale</h3>
 <p><code>meandr</code> will adjust output so that <span class="math inline">\(max(f) = scale\)</span>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
 
 <span class="va">scale</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">~</span> <span class="op">{</span>
   <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>n_points <span class="op">=</span> <span class="fl">100</span>,
@@ -212,15 +200,15 @@
          wt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>,
          scale <span class="op">=</span> <span class="va">.x</span>,
          seed <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="va">.x</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></pre></div>
+    <span class="fu">mutate</span><span class="op">(</span>scale <span class="op">=</span> <span class="va">.x</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 <p>This is useful if you want to supplement <code>meandr</code> curve with additional noise. In example below, relative amplitude of noise is consistent across different <code>meandr</code> curves because we use fixed <code>scale</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/meandr.html">meandr</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>with_noise <span class="op">=</span> <span class="va">f</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, sd <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>with_noise <span class="op">=</span> <span class="va">f</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, sd <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="meandr_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
 </div>
 </div>
